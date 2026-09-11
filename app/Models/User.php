@@ -32,13 +32,11 @@ class User extends Authenticatable
         ];
     }
 
-    // Equipamentos do usuário (quando ele é cliente)
     public function equipamentos(): HasMany
     {
         return $this->hasMany(Equipamento::class);
     }
 
-    // Ordens de Serviço em que o usuário é o técnico responsável
     public function ordensServicoComoTecnico(): HasMany
     {
         return $this->hasMany(OrdemServico::class, 'tecnico_id');

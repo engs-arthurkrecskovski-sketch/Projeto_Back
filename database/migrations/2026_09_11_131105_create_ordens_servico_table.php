@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreignId('tecnico_id')->nullable()->constrained('users')->nullOnDelete();
             $table->text('descricao_problema');
             $table->text('diagnostico')->nullable();
-            $table->string('status')->default('aberta'); // aberta, em_andamento, concluida, cancelada
+            $table->string('status')->default('aberta');
             $table->decimal('valor_total', 10, 2)->nullable();
             $table->date('data_abertura');
             $table->date('data_fechamento')->nullable();

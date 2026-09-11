@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('equipamentos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->string('tipo');       // Console, PC Gamer, Notebook Gamer...
+            $table->string('tipo');   
             $table->string('marca');
             $table->string('modelo');
             $table->string('numero_serie')->nullable();
