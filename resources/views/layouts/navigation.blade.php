@@ -15,6 +15,20 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('equipamentos.index')" :active="request()->routeIs('equipamentos.*')">
+                        {{ __('Equipamentos') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('ordens.index')" :active="request()->routeIs('ordens.*')">
+                        {{ __('Ordens de Serviço') }}
+                    </x-nav-link>
+
+                    @if(auth()->user()->isAdmin())
+                        <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                            {{ __('Usuários (Admin)') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -70,6 +84,20 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('equipamentos.index')" :active="request()->routeIs('equipamentos.*')">
+                {{ __('Equipamentos') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('ordens.index')" :active="request()->routeIs('ordens.*')">
+                {{ __('Ordens de Serviço') }}
+            </x-responsive-nav-link>
+
+            @if(auth()->user()->isAdmin())
+                <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                    {{ __('Usuários (Admin)') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
