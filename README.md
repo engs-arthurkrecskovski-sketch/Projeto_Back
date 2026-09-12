@@ -1,58 +1,105 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistema de Controle de Assistência Técnica de Consoles/PCs Gamer
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Integrantes
+- Jeferson — Banco de dados (migrations, models, relacionamentos, seeders)
+- Bruno — Regras de negócio (controllers, rotas, middleware, policy)
+- Arthur — Telas (views Blade, navegação, estilização com Tailwind)
+- Murilo — Validação e testes (Form Requests, testes manuais dos 3 papéis)
 
-## About Laravel
+## Descrição
+Sistema web para controle de assistência técnica de equipamentos gamer (consoles, PCs e
+notebooks). Clientes cadastram seus equipamentos e abrem ordens de serviço descrevendo o
+problema; técnicos assumem, diagnosticam e fecham as ordens; administradores gerenciam todo
+o sistema, incluindo os usuários.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Tecnologias utilizadas
+- Laravel 12
+- PHP 8.2+
+- PostgreSQL (hospedado no Neon)
+- Blade + Tailwind CSS
+- Laravel Breeze (autenticação)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Papéis de usuário (campo `role`)
+- **admin** — acesso total: gerencia usuários, exclui equipamentos e ordens de serviço.
+- **tecnico** — assume ordens de serviço, atualiza diagnóstico/status.
+- **cliente** — cadastra os próprios equipamentos e abre ordens de serviço para eles.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Funcionalidade                    | Admin | Técnico                          | Cliente             |
 
-## Learning Laravel
+| Ver equipamentos                   | Todos | Todos                             | Só os próprios       |
+| Cadastrar equipamento              | Sim   | Sim                                | Sim (próprio)        |
+| Editar equipamento                 | Sim   | Sim                                | Sim (próprio)        |
+| Excluir equipamento                | Sim   | Não                                | Não                  |
+| Abrir Ordem de Serviço (OS)        | Sim   | Sim                                | Sim (equip. próprio) |
+| Atualizar diagnóstico/status da OS | Sim   | Só se for o técnico responsável   | Não                  |
+| Excluir OS                         | Sim   | Não                                | Não                  |
+| Gerenciar usuários (role)          | Sim   | Não                                | Não                  |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Estrutura do projeto (MVC)
+- **Models**: `User`, `Equipamento`, `OrdemServico`, `Peca`
+- **Controllers**: `EquipamentoController`, `OrdemServicoController`, `PecaController`, `Admin\UserController`
+- **Views (Blade)**: `resources/views/equipamentos/*`, `resources/views/ordens/*`, `resources/views/admin/users/*`
+- **Middleware**: `CheckRole` (alias `role`) — protege as rotas por papel (ex: `role:admin`)
+- **Policy**: `OrdemServicoPolicy` — controla quem pode ver/editar/excluir uma OS
+- **Form Requests**: `StoreEquipamentoRequest`, `StoreOrdemServicoRequest`, `UpdateOrdemServicoRequest`
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Relacionamentos (Eloquent)
+- `User` (cliente) `hasMany` `Equipamento`
+- `Equipamento` `hasMany` `OrdemServico`
+- `User` (técnico) `hasMany` `OrdemServico` (via `tecnico_id`, relação `ordensServicoComoTecnico`)
+- `OrdemServico` `hasMany` `Peca`
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## Instalação
 
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+1. Clonar o repositório e instalar as dependências:
+```
+git clone <url-do-repositorio>
+cd Projeto_Back
+composer install
+npm install
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+2. Configurar o ambiente:
+```
+cp .env.example .env
+php artisan key:generate
+```
 
-## Contributing
+3. Configurar o banco de dados PostgreSQL no `.env`:
+```
+DB_CONNECTION=pgsql
+DB_HOST=<host-do-banco>
+DB_PORT=5432
+DB_DATABASE=<nome-do-banco>
+DB_USERNAME=<usuario>
+DB_PASSWORD=<senha>
+DB_SSLMODE=require
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. Rodar as migrations e seeders:
+```
+php artisan migrate:fresh --seed
+```
 
-## Code of Conduct
+5. Compilar os assets do front-end:
+```
+npm run build
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Execução
+```
+php artisan serve
+```
+Acesse em `http://127.0.0.1:8000`.
 
-## Security Vulnerabilities
+Para desenvolvimento com recarregamento automático do CSS/JS, use `npm run dev` em outro terminal.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Usuários de teste (criados pelo seeder)
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Papel   | E-mail                | Senha      |
+|---------|------------------------|------------|
+| Admin   | admin@email.com        | 12345678   |
+| Técnico | tecnico@email.com      | 12345678   |
+| Técnico | tecnica2@email.com     | 12345678   |
+| Cliente | cliente@email.com      | 12345678   |
+| Cliente | cliente2@email.com     | 12345678   |
