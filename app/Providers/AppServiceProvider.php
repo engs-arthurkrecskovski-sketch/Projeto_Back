@@ -17,8 +17,11 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
-    {
-        //
-    }
+public function boot(): void
+{
+    \Illuminate\Support\Facades\Gate::policy(
+        \App\Models\OrdemServico::class,
+        \App\Policies\OrdemServicoPolicy::class
+    );
+}
 }
