@@ -1,7 +1,7 @@
 # Sistema de Controle de Assistência Técnica de Consoles/PCs Gamer
 
 ## Integrantes
-- Jeferson — Banco de dados (migrations, models, relacionamentos, seeders), Correções nos códigos, FRONT.
+- Jeferson — Banco de dados (migrations, models, relacionamentos, seeders), Correções nos códigos, criação e atualização para aplicar FRONT-END.
 - Bruno — Regras de negócio (controllers, rotas, middleware, policy)
 - Arthur — Telas (views Blade, navegação, estilização com Tailwind)
 - Murilo — Validação e testes (Form Requests, testes manuais dos 3 papéis)
