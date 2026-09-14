@@ -14,32 +14,36 @@
     </head>
 
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+       <div class="flex min-h-screen bg-slate-200">
 
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
+            @include('layouts.sidebar')
 
-            <main>
-                @if ($errors->any())
-                    <div class="max-w-7xl mx-auto mt-4 px-4 sm:px-6 lg:px-8">
-                        <div class="p-4 bg-red-100 text-red-800 rounded" role="alert">
-                            <ul class="list-disc pl-5">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
+            <div class="flex-1 flex flex-col min-w-0">
+
+                @isset($header)
+                    <header class="bg-slate-200 border-b border-slate-200">
+                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                            {{ $header }}
                         </div>
-                    </div>
-                @endif
+                    </header>
+                @endisset
 
-                {{ $slot }}
-            </main>
+                <main class="flex-1">
+                    @if ($errors->any())
+                        <div class="max-w-7xl mx-auto mt-4 px-4 sm:px-6 lg:px-8">
+                            <div class="p-4 bg-red-50 border border-red-200 text-red-800 rounded-lg" role="alert">
+                                <ul class="list-disc pl-5 text-sm">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    @endif
+
+                    {{ $slot }}
+                </main>
+            </div>
         </div>
     </body>
 </html>

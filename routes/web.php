@@ -5,6 +5,9 @@ use App\Http\Controllers\EquipamentoController;
 use App\Http\Controllers\OrdemServicoController;
 use App\Http\Controllers\PecaController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Equipamento;
+use App\Models\OrdemServico;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
