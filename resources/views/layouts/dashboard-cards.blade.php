@@ -18,7 +18,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
             {{-- Resumo: Equipamentos --}}
-            <div class="bg-slate-50 rounded-2xl shadow-sm border border-slate-100 p-6">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
                 <div class="flex items-center justify-between">
                     <p class="text-sm text-slate-500 font-medium">Equipamentos cadastrados</p>
                     <div class="bg-indigo-50 p-2.5 rounded-xl">
@@ -34,7 +34,7 @@
             </div>
 
             {{-- Resumo: Ordens de Serviço --}}
-            <div class="bg-slate-50 rounded-2xl shadow-sm border border-slate-100 p-6">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
                 <div class="flex items-center justify-between">
                     <p class="text-sm text-slate-500 font-medium">Ordens de serviço abertas</p>
                     <div class="bg-amber-50 p-2.5 rounded-xl">
@@ -51,7 +51,7 @@
 
             {{-- Resumo: Usuários (só admin) --}}
             @if(auth()->user()->isAdmin())
-                <div class="bg-slate-50 rounded-2xl shadow-sm border border-slate-100 p-6">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
                     <div class="flex items-center justify-between">
                         <p class="text-sm text-slate-500 font-medium">Usuários ativos</p>
                         <div class="bg-emerald-50 p-2.5 rounded-xl">
