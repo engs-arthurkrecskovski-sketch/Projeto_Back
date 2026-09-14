@@ -3,6 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EquipamentoController;
+use App\Http\Controllers\OrdemServicoController;
+
+Route::resource('ordens', OrdemServicoController::class);
 
 Route::get('/', function () {
     return view('welcome');
